@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { IconSprite } from './components/IconSprite';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
@@ -16,9 +16,13 @@ import { Footer } from './components/Footer';
 export default function App() {
   const [activeSection, setActiveSection] = useState('');
   const [hideFab, setHideFab] = useState(true);
-  const [prefilledDetails, setPrefilledDetails] = useState('');
+  const [prefilledOrder, setPrefilledOrder] = useState(null);
   const heroRef = useRef(null);
   const contactRef = useRef(null);
+
+  const handleApplyEstimate = useCallback((text) => {
+    setPrefilledOrder({ text, nonce: Date.now() });
+  }, []);
 
   useEffect(() => {
     // Reveal-on-scroll observer (never hides elements already in the initial viewport so LCP is instant)
@@ -33,11 +37,11 @@ export default function App() {
           revealObs.unobserve(entry.target);
         });
       },
-      { threshold: 0.12 }
+      { rootMargin: '80px 0px', threshold: 0.04 }
     );
     revealEls.forEach((el) => {
       const rect = el.getBoundingClientRect();
-      if (rect.top < vh * 1.05 && rect.bottom > 0) {
+      if (rect.top < vh * 1.15) {
         el.classList.add('in');
       } else {
         el.classList.add('rv-wait');
@@ -45,17 +49,21 @@ export default function App() {
       }
     });
 
-    // Active navigation link observer
+    // Active navigation link observer (clears active underline when back at top hero)
     const navObs = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
+          if (!entry.isIntersecting) return;
+          if (entry.target === heroRef.current) {
+            setActiveSection('');
+          } else if (entry.target.id) {
             setActiveSection(entry.target.id);
           }
         });
       },
       { rootMargin: '-40% 0px -55% 0px' }
     );
+    if (heroRef.current) navObs.observe(heroRef.current);
     document.querySelectorAll('section[id]').forEach((sec) => navObs.observe(sec));
 
     // Floating mobile CTA visibility observer
@@ -96,10 +104,10 @@ export default function App() {
         <Services />
         <CompostProduct />
         <ProcessSection />
-        <FarmCalculator onApplyEstimate={setPrefilledDetails} />
+        <FarmCalculator onApplyEstimate={handleApplyEstimate} />
         <FaqSection />
         <Gallery />
-        <Contact contactRef={contactRef} prefilledDetails={prefilledDetails} />
+        <Contact contactRef={contactRef} prefilledOrder={prefilledOrder} />
       </main>
 
       <Footer />

@@ -11,7 +11,7 @@ export function AudiencePaths() {
             <BrandAssetIcon iconKey="iconFieldRidges" className="path-brand-icon" />
           </span>
           <div>
-            <h3>أنا مزارع</h3>
+            <h2>أنا مزارع</h2>
             <p>احسب كمية الكومبوست لمزرعتك واطلبها</p>
           </div>
           <Icon name="arr" className="ar" />
@@ -21,7 +21,7 @@ export function AudiencePaths() {
             <BrandAssetIcon iconKey="iconCompostBag" className="path-brand-icon" />
           </span>
           <div>
-            <h3>أنا مهندس أو شركة</h3>
+            <h2>أنا مهندس أو شركة</h2>
             <p>ورقة بيانات الكومبوست وخدمات التدوير</p>
           </div>
           <Icon name="arr" className="ar" />

@@ -5,37 +5,29 @@ import { animateCount } from '../utils/format';
 // Compact cane placements referencing 3 reusable <g> symbols in SVG <defs>
 const FIELD_CANES = [
   { x: 18, type: 'm', flip: false, shade: '#6fa946', op: 0.78 },
-  { x: 54, type: 's', flip: true, shade: '#5a943e', op: 0.55 },
-  { x: 88, type: 'l', flip: false, shade: '#7ab34c', op: 0.85 },
-  { x: 126, type: 's', flip: true, shade: '#649e42', op: 0.65 },
-  { x: 164, type: 'l', flip: false, shade: '#7ab34c', op: 0.82 },
-  { x: 202, type: 's', flip: true, shade: '#5a943e', op: 0.52 },
-  { x: 238, type: 'm', flip: false, shade: '#6fa946', op: 0.76 },
-  { x: 276, type: 'm', flip: true, shade: '#7ab34c', op: 0.7 },
-  { x: 314, type: 'l', flip: false, shade: '#7ab34c', op: 0.84 },
-  { x: 352, type: 's', flip: true, shade: '#5a943e', op: 0.55 },
-  { x: 388, type: 'm', flip: false, shade: '#6fa946', op: 0.78 },
-  { x: 426, type: 's', flip: true, shade: '#649e42', op: 0.64 },
-  { x: 464, type: 'l', flip: false, shade: '#7ab34c', op: 0.85 },
-  { x: 502, type: 's', flip: true, shade: '#5a943e', op: 0.54 },
-  { x: 538, type: 'm', flip: false, shade: '#6fa946', op: 0.78 },
-  { x: 576, type: 'm', flip: true, shade: '#7ab34c', op: 0.72 },
-  { x: 614, type: 'l', flip: false, shade: '#7ab34c', op: 0.82 },
-  { x: 652, type: 's', flip: true, shade: '#5a943e', op: 0.52 },
-  { x: 688, type: 'm', flip: false, shade: '#6fa946', op: 0.76 },
-  { x: 726, type: 's', flip: true, shade: '#649e42', op: 0.65 },
-  { x: 764, type: 'l', flip: false, shade: '#7ab34c', op: 0.84 },
-  { x: 802, type: 's', flip: true, shade: '#5a943e', op: 0.54 },
-  { x: 838, type: 'm', flip: false, shade: '#6fa946', op: 0.78 },
-  { x: 876, type: 'm', flip: true, shade: '#7ab34c', op: 0.7 },
-  { x: 914, type: 'l', flip: false, shade: '#7ab34c', op: 0.84 },
-  { x: 952, type: 's', flip: true, shade: '#5a943e', op: 0.55 },
-  { x: 988, type: 'm', flip: false, shade: '#6fa946', op: 0.78 },
-  { x: 1026, type: 's', flip: true, shade: '#649e42', op: 0.64 },
-  { x: 1064, type: 'l', flip: false, shade: '#7ab34c', op: 0.85 },
-  { x: 1102, type: 's', flip: true, shade: '#5a943e', op: 0.54 },
-  { x: 1138, type: 'm', flip: false, shade: '#6fa946', op: 0.78 },
-  { x: 1174, type: 'm', flip: true, shade: '#7ab34c', op: 0.72 },
+  { x: 64, type: 's', flip: true, shade: '#5a943e', op: 0.55 },
+  { x: 112, type: 'l', flip: false, shade: '#7ab34c', op: 0.85 },
+  { x: 164, type: 's', flip: true, shade: '#649e42', op: 0.65 },
+  { x: 214, type: 'l', flip: false, shade: '#7ab34c', op: 0.82 },
+  { x: 264, type: 's', flip: true, shade: '#5a943e', op: 0.52 },
+  { x: 314, type: 'm', flip: false, shade: '#6fa946', op: 0.76 },
+  { x: 366, type: 'm', flip: true, shade: '#7ab34c', op: 0.7 },
+  { x: 418, type: 'l', flip: false, shade: '#7ab34c', op: 0.84 },
+  { x: 468, type: 's', flip: true, shade: '#5a943e', op: 0.55 },
+  { x: 520, type: 'm', flip: false, shade: '#6fa946', op: 0.78 },
+  { x: 572, type: 's', flip: true, shade: '#649e42', op: 0.64 },
+  { x: 624, type: 'l', flip: false, shade: '#7ab34c', op: 0.85 },
+  { x: 676, type: 's', flip: true, shade: '#5a943e', op: 0.54 },
+  { x: 728, type: 'm', flip: false, shade: '#6fa946', op: 0.78 },
+  { x: 780, type: 'm', flip: true, shade: '#7ab34c', op: 0.72 },
+  { x: 832, type: 'l', flip: false, shade: '#7ab34c', op: 0.82 },
+  { x: 884, type: 's', flip: true, shade: '#5a943e', op: 0.52 },
+  { x: 936, type: 'm', flip: false, shade: '#6fa946', op: 0.76 },
+  { x: 988, type: 's', flip: true, shade: '#649e42', op: 0.65 },
+  { x: 1040, type: 'l', flip: false, shade: '#7ab34c', op: 0.84 },
+  { x: 1092, type: 's', flip: true, shade: '#5a943e', op: 0.54 },
+  { x: 1144, type: 'm', flip: false, shade: '#6fa946', op: 0.78 },
+  { x: 1184, type: 'm', flip: true, shade: '#7ab34c', op: 0.72 },
 ];
 
 export function Hero({ heroRef }) {
@@ -68,7 +60,7 @@ export function Hero({ heroRef }) {
             }
           });
         },
-        { threshold: 0.5 }
+        { threshold: 0.25 }
       );
       statsObs.observe(statsEl);
     }
@@ -95,7 +87,7 @@ export function Hero({ heroRef }) {
         </div>
 
         <div className="wrap hero-grid">
-          <div>
+          <div className="hero-copy">
             <h1>
               <span className="w">مواردنا النهاردة..</span>
               <br />
@@ -107,8 +99,8 @@ export function Hero({ heroRef }) {
               نجمع ونعالج وندوّر مخلفات قصب السكر لنقدم كمبوست عالي النقاء.
             </p>
             <p className="lead">
-              بوزن 500–550 كجم/م³ وتحاليل معتمدة من مركز البحوث الزراعية، مع توريد مرن للمزارع
-              والأراضي المستصلحة في مختلف الأماكن.
+              بوزن <span className="num">500–550</span> كجم/م³ وتحاليل معتمدة من مركز البحوث
+              الزراعية، مع توريد مرن للمزارع والأراضي المستصلحة في مختلف الأماكن.
             </p>
             <div className="cta">
               <a className="btn btn-straw" href="#contact">
@@ -120,63 +112,20 @@ export function Hero({ heroRef }) {
             </div>
           </div>
 
-          <svg
-            className="loop"
-            viewBox="0 0 400 400"
-            width="400"
-            height="400"
-            role="img"
-            aria-label="دورة الاقتصاد الدائري: الأرض ثم المحصول ثم المخلفات ثم الكومبوست ثم العودة إلى الأرض"
-          >
-            <circle
-              cx="200"
-              cy="200"
-              r="150"
-              fill="none"
-              stroke="#9ccc6f"
-              strokeWidth="3"
-              opacity=".75"
-            />
-            <g className="core" textAnchor="middle" fontFamily="Hanimation, Outfit, sans-serif" fontWeight="800">
-              <circle cx="200" cy="200" r="100" fill="#153d20" />
-              <text x="200" y="195" fill="#fff" fontSize="21">
-                دورة
-              </text>
-              <text x="200" y="226" fill="#9ccc6f" fontSize="21">
-                لا تنتهي
-              </text>
-            </g>
-            {/* GPU-composited orbiting dots (replaces main-thread SMIL animateMotion) */}
-            <g className="orbit-dots" fill="#9ccc6f">
-              <circle cx="200" cy="50" r="5" />
-              <circle cx="330" cy="275" r="5" />
-              <circle cx="70" cy="275" r="5" />
-            </g>
-            <g
-              fontFamily="Hanimation, Outfit, sans-serif"
-              fontSize="15"
-              fill="#fff"
-              textAnchor="middle"
-              fontWeight="600"
-            >
-              <g className="nd">
-                <circle cx="200" cy="50" r="32" fill="#286631" />
-                <text x="200" y="55">الأرض</text>
-              </g>
-              <g className="nd">
-                <circle cx="350" cy="200" r="32" fill="#4f8f3a" />
-                <text x="350" y="205">المحصول</text>
-              </g>
-              <g className="nd">
-                <circle cx="200" cy="350" r="32" fill="#a87945" />
-                <text x="200" y="355">كومبوست</text>
-              </g>
-              <g className="nd">
-                <circle cx="50" cy="200" r="32" fill="#8a6238" />
-                <text x="50" y="205">مخلفات</text>
-              </g>
-            </g>
-          </svg>
+          <div className="hero-cycle-wrap">
+            <figure className="hero-cycle">
+              <img
+                src="/hero-cycle.webp"
+                srcSet="/hero-cycle-sm.webp 580w, /hero-cycle.webp 760w"
+                sizes="(max-width: 700px) 320px, (max-width: 820px) 360px, 440px"
+                alt="دورة الاقتصاد الدائري الزراعي: قصب السكر يتحول إلى كومبوست يعود لتغذية الأرض وإنبات المحاصيل"
+                width="760"
+                height="608"
+                decoding="sync"
+                fetchPriority="high"
+              />
+            </figure>
+          </div>
         </div>
 
         <svg
@@ -223,7 +172,9 @@ export function Hero({ heroRef }) {
         <div className="wrap">
           {HERO_STATS.map((stat, idx) => (
             <div className="stat" key={stat.id}>
-              <b ref={(el) => (statNumsRef.current[idx] = el)}>{stat.initial}</b>
+              <b className="num" ref={(el) => (statNumsRef.current[idx] = el)}>
+                {stat.initial}
+              </b>
               <span>{stat.label}</span>
             </div>
           ))}

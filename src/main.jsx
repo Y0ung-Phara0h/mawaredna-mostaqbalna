@@ -13,6 +13,12 @@ function mount() {
   } else if (container) {
     createRoot(container).render(<App />);
   }
+  if (typeof window !== 'undefined') {
+    window.__mmHydrated = true;
+    if (typeof window.__mmFlush === 'function') {
+      requestAnimationFrame(() => window.__mmFlush());
+    }
+  }
 }
 
 // Let the browser paint prerendered HTML before hydrating React

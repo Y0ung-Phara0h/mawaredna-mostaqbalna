@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { DATASHEET_ROWS } from '../data/siteData';
-import { formatAr } from '../utils/format';
+import { formatNum } from '../utils/format';
 import { BrandAssetIcon } from './BrandAssetIcon';
 
 const CANES = [
@@ -36,8 +36,8 @@ export function CompostProduct() {
           <div className="sec-head" style={{ marginBottom: 20 }}>
             <h2>كومبوست مواردنا مستقبلنا</h2>
             <p>
-              كومبوست (كمبوست) نباتي ١٠٠٪ من مخلفات قصب السكر، يمر بالمعالجة والتخمير والتجهيز
-              قبل الاستخدام لرفع خصوبة التربة.
+              كومبوست (كمبوست) نقي <span className="num">100%</span> من مخلفات قصب السكر، يمر
+              بالمعالجة والتخمير والتجهيز قبل الاستخدام لرفع خصوبة التربة.
             </p>
           </div>
 
@@ -73,7 +73,7 @@ export function CompostProduct() {
                 fontWeight="600"
                 textAnchor="middle"
               >
-                منتجنا ١٠٠٪ نباتي
+                منتجنا 100% نقي
               </text>
 
               <rect y="270" width="400" height="50" fill="#5a432b" />
@@ -235,19 +235,19 @@ export function CompostProduct() {
           <ul className="ticks">
             <li>
               <BrandAssetIcon iconKey="iconSoilLeaves" className="tick-brand-icon" />
-              يحسّن خواص التربة ويرفع نسبة المادة العضوية
+              <span>يحسّن خواص التربة ويرفع نسبة المادة العضوية</span>
             </li>
             <li>
               <BrandAssetIcon iconKey="iconWaterDrop" className="tick-brand-icon" />
-              يزيد قدرة التربة الرملية على الاحتفاظ بالماء
+              <span>يزيد قدرة التربة الرملية على الاحتفاظ بالماء</span>
             </li>
             <li>
               <BrandAssetIcon iconKey="iconSproutBlades" className="tick-brand-icon" />
-              يدعم نمو الجذور ويحسّن جودة المحاصيل
+              <span>يدعم نمو الجذور ويحسّن جودة المحاصيل</span>
             </li>
             <li>
               <BrandAssetIcon iconKey="iconCompostBag" className="tick-brand-icon" />
-              يُنتج بالتخمير والمعالجة للتخلص من بذور الحشائش
+              <span>يُنتج بالتخمير والمعالجة للتخلص من بذور الحشائش</span>
             </li>
           </ul>
           <a href="#contact" className="btn btn-green">
@@ -276,9 +276,9 @@ export function CompostProduct() {
                     }}
                   />
                 </div>
-                <b>
-                  {row.min ? `${formatAr(row.min)}–` : ''}
-                  {formatAr(row.max)}
+                <b className="num">
+                  {row.min ? `${formatNum(row.min)}–` : ''}
+                  {formatNum(row.max)}
                   {row.unit}
                 </b>
               </div>
@@ -297,7 +297,7 @@ export function CompostProduct() {
                   }}
                 />
               </div>
-              <b>{formatAr(6.5, 1)}</b>
+              <b className="num">{formatNum(6.5, 1)}</b>
             </div>
           </div>
         </div>
