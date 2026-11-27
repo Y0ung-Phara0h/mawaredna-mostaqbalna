@@ -34,7 +34,7 @@ export function WorkShowcase() {
             height="1920"
             aria-label="فيديو من أعمال شركة مواردنا مستقبلنا"
           >
-            <source src="/videos/our-work.mp4" type="video/mp4" />
+            <source src="https://res.cloudinary.com/sr7yodil/video/upload/v1795778626/customer_v-compressed_qu7pyu.mp4" type="video/mp4" />
             متصفحك لا يدعم تشغيل الفيديو.
           </video>
         </div>
