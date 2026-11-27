@@ -3,18 +3,20 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "موقع شركة مواردنا مستقبلنا لإنتاج الكومبوست النباتي ١٠٠٪ من مخلفات قصب السكر في مصر",
+  "description": "موقع شركة مواردنا مستقبلنا لإنتاج الكومبوست النقي 100% من مخلفات قصب السكر في مصر",
   "scripts": {
     "dev": "vite",
     "build": "vite build && vite build --ssr src/entry-server.jsx --outDir dist/server && node scripts/prerender.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "preact": "^11.2.0",
+    "preact-render-to-string": "^6.8.3",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^4.3.4",
-    "vite": "^6.2.0"
+    "@vitejs/plugin-react": "^6.3.0",
+    "vite": "^8.3.8"
   }
 }

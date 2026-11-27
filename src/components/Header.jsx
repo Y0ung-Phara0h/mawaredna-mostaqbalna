@@ -2,39 +2,68 @@ import React, { useEffect, useRef, useState } from 'react';
 import { NAV_LINKS } from '../data/siteData';
 import { Icon } from './IconSprite';
 
+function resolveInitialTheme() {
+  if (typeof document === 'undefined') return 'light';
+  const attr = document.documentElement.dataset.theme;
+  if (attr === 'dark' || attr === 'light') return attr;
+  if (typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    return 'dark';
+  }
+  return 'light';
+}
+
 export function Header({ activeSection }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [theme, setTheme] = useState(resolveInitialTheme);
   const headerRef = useRef(null);
   const progressRef = useRef(null);
 
   useEffect(() => {
-    const saved = localStorage.getItem('theme');
-    if (saved === 'dark' || saved === 'light') {
-      document.documentElement.dataset.theme = saved;
+    try {
+      const saved = localStorage.getItem('theme');
+      if (saved === 'dark' || saved === 'light') {
+        document.documentElement.dataset.theme = saved;
+        setTheme(saved);
+      } else {
+        setTheme(resolveInitialTheme());
+      }
+    } catch {
+      setTheme(resolveInitialTheme());
     }
 
     let rafId = 0;
-    let maxScroll = Math.max(1, document.body.scrollHeight - window.innerHeight);
+    let maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+
+    const updateProgress = () => {
+      const y = window.scrollY;
+      setScrolled((prev) => {
+        const next = y > 10;
+        return prev === next ? prev : next;
+      });
+      if (progressRef.current) {
+        progressRef.current.style.transform = `scaleX(${Math.min(1, Math.max(0, y / maxScroll))})`;
+      }
+    };
 
     const updateMetrics = () => {
-      maxScroll = Math.max(1, document.body.scrollHeight - window.innerHeight);
+      maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      updateProgress();
     };
 
     const onScroll = () => {
       if (rafId) return;
       rafId = requestAnimationFrame(() => {
         rafId = 0;
-        const y = window.scrollY;
-        setScrolled((prev) => {
-          const next = y > 10;
-          return prev === next ? prev : next;
-        });
-        if (progressRef.current) {
-          progressRef.current.style.transform = `scaleX(${Math.min(1, y / maxScroll)})`;
-        }
+        updateProgress();
       });
     };
+
+    let resizeObs;
+    if (typeof ResizeObserver !== 'undefined') {
+      resizeObs = new ResizeObserver(updateMetrics);
+      resizeObs.observe(document.documentElement);
+    }
 
     const onClickOutside = (e) => {
       if (headerRef.current && !headerRef.current.contains(e.target)) {
@@ -50,10 +79,11 @@ export function Header({ activeSection }) {
     window.addEventListener('resize', updateMetrics, { passive: true });
     document.addEventListener('click', onClickOutside);
     document.addEventListener('keydown', onKeyDown);
-    onScroll();
+    updateMetrics();
 
     return () => {
       if (rafId) cancelAnimationFrame(rafId);
+      if (resizeObs) resizeObs.disconnect();
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', updateMetrics);
       document.removeEventListener('click', onClickOutside);
@@ -68,7 +98,12 @@ export function Header({ activeSection }) {
       (!root.dataset.theme && window.matchMedia('(prefers-color-scheme: dark)').matches);
     const next = isDark ? 'light' : 'dark';
     root.dataset.theme = next;
-    localStorage.setItem('theme', next);
+    setTheme(next);
+    try {
+      localStorage.setItem('theme', next);
+    } catch {
+      // Ignore storage errors in restricted browsing contexts
+    }
   };
 
   return (
@@ -124,10 +159,11 @@ export function Header({ activeSection }) {
             type="button"
             className="icon-btn"
             id="theme"
-            aria-label="تبديل الوضع الليلي"
+            aria-label={theme === 'dark' ? 'التبديل إلى الوضع النهاري' : 'التبديل إلى الوضع الليلي'}
+            aria-pressed={theme === 'dark'}
             onClick={toggleTheme}
           >
-            <Icon name="moon" />
+            <Icon name={theme === 'dark' ? 'sun' : 'moon'} />
           </button>
           <a href="#contact" className="btn btn-green">
             اطلب خدمة

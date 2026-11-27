@@ -1,0 +1,8 @@
+/* Single-request WebP sprite for botanical icons (keeps <head> HTML/CSS ultra-light) */
+.brand-icon{display:inline-block;background-image:url("/icons/sprite.webp");background-repeat:no-repeat;background-size:600% 100%;flex:none;user-select:none;transition:transform .3s var(--ease)}
+.brand-icon--iconCompostBag{background-position:0% 0}
+.brand-icon--iconFieldRidges{background-position:20% 0}
+.brand-icon--iconSoilLeaves{background-position:40% 0}
+.brand-icon--iconSproutBlades{background-position:60% 0}
+.brand-icon--iconSugarcaneStalk{background-position:80% 0}
+.brand-icon--iconWaterDrop{background-position:100% 0}

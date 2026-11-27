@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { PROCESS_STEPS, SCENE_FIELD_STALKS } from '../data/siteData';
-import { formatAr } from '../utils/format';
+import { formatNum } from '../utils/format';
 
 const SUN_RAYS = Array.from({ length: 12 }, (_, i) => i * 30);
 
@@ -36,7 +36,7 @@ export function ProcessSection() {
             }
           });
         },
-        { threshold: 0.4 }
+        { threshold: 0.25 }
       );
       stepsObs.observe(stepsEl);
     }
@@ -52,7 +52,10 @@ export function ProcessSection() {
       <div className="wrap">
         <div className="sec-head rv">
           <h2>من المخلفات إلى منتج</h2>
-          <p>هكذا نعمل: من الحقل إلى الموقع ثم إلى الأرض مرة أخرى، في عشر مراحل منظمة.</p>
+          <p>
+            هكذا نعمل: من الحقل إلى الموقع ثم إلى الأرض مرة أخرى، في{' '}
+            <span className="num">10</span> مراحل منظمة.
+          </p>
         </div>
 
         <div className="scene rv" id="scene" ref={sceneRef}>
@@ -188,19 +191,19 @@ export function ProcessSection() {
               opacity=".5"
             />
             <text className="lab" x="1070" y="40">
-              ١ من الحقل
+              1 من الحقل
             </text>
             <text className="lab" x="870" y="40">
-              ٢ النقل
+              2 النقل
             </text>
             <text className="lab" x="700" y="40">
-              ٣ التفريغ والتقليب
+              3 التفريغ والتقليب
             </text>
             <text className="lab" x="370" y="40">
-              ٤ التخمير
+              4 التخمير
             </text>
             <text className="lab" x="110" y="40">
-              ٥ تعود للأرض
+              5 تعود للأرض
             </text>
           </svg>
         </div>
@@ -210,7 +213,7 @@ export function ProcessSection() {
         <div className="steps" id="steps" ref={stepsRef}>
           {PROCESS_STEPS.map((step, i) => (
             <div className="step" style={{ '--i': i }} key={step}>
-              <i>{formatAr(i + 1)}</i>
+              <i className="num">{formatNum(i + 1)}</i>
               <b>{step}</b>
             </div>
           ))}

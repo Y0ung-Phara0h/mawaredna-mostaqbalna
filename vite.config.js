@@ -15,16 +15,20 @@ const COMPRESSIBLE_EXTS = new Set([
   '.webmanifest',
   '.ttf',
 ]);
+
 const MIME_TYPES = {
   '.html': 'text/html; charset=utf-8',
   '.js': 'application/javascript; charset=utf-8',
   '.css': 'text/css; charset=utf-8',
   '.svg': 'image/svg+xml',
+  '.png': 'image/png',
+  '.webp': 'image/webp',
   '.json': 'application/json; charset=utf-8',
   '.xml': 'application/xml; charset=utf-8',
   '.txt': 'text/plain; charset=utf-8',
   '.webmanifest': 'application/manifest+json; charset=utf-8',
   '.ttf': 'font/ttf',
+  '.woff2': 'font/woff2',
 };
 
 function previewCompressionPlugin() {
@@ -35,14 +39,24 @@ function previewCompressionPlugin() {
       const distDir = path.resolve('dist');
       server.middlewares.use((req, res, next) => {
         if (req.method !== 'GET' && req.method !== 'HEAD') return next();
-        const urlPath = (req.url || '/').split('?')[0];
+        let urlPath;
+        try {
+          urlPath = decodeURIComponent((req.url || '/').split('?')[0]);
+        } catch {
+          return next();
+        }
         const relPath = urlPath === '/' ? 'index.html' : urlPath.replace(/^\/+/, '');
-        const filePath = path.join(distDir, relPath);
-        if (
-          !filePath.startsWith(distDir) ||
-          !fs.existsSync(filePath) ||
-          fs.statSync(filePath).isDirectory()
-        ) {
+        const filePath = path.resolve(distDir, relPath);
+        const relCheck = path.relative(distDir, filePath);
+        if (relCheck.startsWith('..') || path.isAbsolute(relCheck)) {
+          return next();
+        }
+
+        let stat;
+        try {
+          stat = fs.statSync(filePath);
+          if (!stat.isFile()) return next();
+        } catch {
           return next();
         }
 
@@ -51,7 +65,8 @@ function previewCompressionPlugin() {
           urlPath.startsWith('/assets/') ||
           urlPath.startsWith('/fonts/') ||
           urlPath.startsWith('/icons/') ||
-          urlPath.startsWith('/brand/');
+          urlPath.startsWith('/brand/') ||
+          urlPath.startsWith('/gallery/');
 
         if (isImmutable) {
           res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
@@ -62,7 +77,6 @@ function previewCompressionPlugin() {
         if (!COMPRESSIBLE_EXTS.has(ext)) return next();
 
         const acceptEncoding = String(req.headers['accept-encoding'] || '');
-        const stat = fs.statSync(filePath);
         const enc = acceptEncoding.includes('br')
           ? 'br'
           : acceptEncoding.includes('gzip')
@@ -95,9 +109,19 @@ function previewCompressionPlugin() {
 
 export default defineConfig({
   plugins: [react(), previewCompressionPlugin()],
+  resolve: {
+    alias: {
+      react: 'preact/compat',
+      'react-dom/test-utils': 'preact/test-utils',
+      'react-dom/client': 'preact/compat/client',
+      'react-dom': 'preact/compat',
+      'react/jsx-runtime': 'preact/jsx-runtime',
+      'react/jsx-dev-runtime': 'preact/jsx-dev-runtime',
+    },
+  },
   build: {
     target: 'es2020',
-    minify: 'esbuild',
+    minify: true,
     cssMinify: true,
     sourcemap: false,
   },

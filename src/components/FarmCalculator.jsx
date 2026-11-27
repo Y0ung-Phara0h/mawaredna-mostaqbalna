@@ -11,6 +11,7 @@ import {
   getPerFeddanRateRange,
   getRuntimeCalculatorConfig,
 } from '../utils/calculator';
+import { normalizeDigits } from '../utils/format';
 import { BrandAssetIcon } from './BrandAssetIcon';
 import { Icon } from './IconSprite';
 
@@ -24,9 +25,7 @@ export function FarmCalculator({ onApplyEstimate }) {
   const [soilType, setSoilType] = useState('loamy');
   const [estimate, setEstimate] = useState(null);
   const [areaError, setAreaError] = useState('');
-  const [hintHovered, setHintHovered] = useState(false);
-  const [hintPinned, setHintPinned] = useState(false);
-  const hintOpen = hintHovered || hintPinned;
+  const [hintOpen, setHintOpen] = useState(false);
   const hintRef = useRef(null);
 
   const perFeddanRate = useMemo(
@@ -34,28 +33,17 @@ export function FarmCalculator({ onApplyEstimate }) {
     [cropType, soilType, config]
   );
 
-  // Keep estimate live-updated whenever crop or soil changes after a valid area has been calculated
-  useEffect(() => {
-    if (!estimate) return;
-    const evaluation = evaluateCompostEstimate({ areaFeddan, cropType, soilType }, config);
-    if (evaluation.status === 'ready') {
-      setEstimate(evaluation.estimate);
-    }
-  }, [cropType, soilType, config]);
-
   // Close conversion hint popover on outside click or Escape
   useEffect(() => {
-    if (!hintPinned && !hintHovered) return;
+    if (!hintOpen) return;
     const onPointerDown = (e) => {
       if (hintRef.current && !hintRef.current.contains(e.target)) {
-        setHintPinned(false);
-        setHintHovered(false);
+        setHintOpen(false);
       }
     };
     const onKeyDown = (e) => {
       if (e.key === 'Escape') {
-        setHintPinned(false);
-        setHintHovered(false);
+        setHintOpen(false);
       }
     };
     window.addEventListener('pointerdown', onPointerDown);
@@ -64,13 +52,27 @@ export function FarmCalculator({ onApplyEstimate }) {
       window.removeEventListener('pointerdown', onPointerDown);
       window.removeEventListener('keydown', onKeyDown);
     };
-  }, [hintPinned, hintHovered]);
+  }, [hintOpen]);
+
+  const syncEstimateIfActive = (nextArea, nextCrop, nextSoil) => {
+    if (!estimate) return;
+    const normalized = normalizeDigits(nextArea);
+    const evalNext = evaluateCompostEstimate(
+      { areaFeddan: normalized, cropType: nextCrop, soilType: nextSoil },
+      config
+    );
+    setEstimate(evalNext.status === 'ready' ? evalNext.estimate : null);
+  };
 
   const handleCalculate = (e) => {
     e.preventDefault();
     setAreaError('');
 
-    const evaluation = evaluateCompostEstimate({ areaFeddan, cropType, soilType }, config);
+    const normalized = normalizeDigits(areaFeddan);
+    const evaluation = evaluateCompostEstimate(
+      { areaFeddan: normalized, cropType, soilType },
+      config
+    );
     if (evaluation.status === 'invalid') {
       setEstimate(null);
       setAreaError(evaluation.errors.areaFeddan || 'يرجى إدخال مساحة صالحة بالفدان أكبر من الصفر.');
@@ -83,10 +85,13 @@ export function FarmCalculator({ onApplyEstimate }) {
   const handleSendToContact = () => {
     if (!onApplyEstimate) return;
 
-    // Auto-evaluate if user entered a valid Feddan area without clicking Calculate yet
+    const normalized = normalizeDigits(areaFeddan);
     let activeEstimate = estimate;
-    if (!activeEstimate && areaFeddan.trim()) {
-      const check = evaluateCompostEstimate({ areaFeddan, cropType, soilType }, config);
+    if (!activeEstimate && normalized) {
+      const check = evaluateCompostEstimate(
+        { areaFeddan: normalized, cropType, soilType },
+        config
+      );
       if (check.status === 'ready') {
         activeEstimate = check.estimate;
         setEstimate(check.estimate);
@@ -105,7 +110,7 @@ export function FarmCalculator({ onApplyEstimate }) {
 
     const lines = [
       'تقدير حاسبة احتياج المزرعة:',
-      areaFeddan.trim() ? `- المساحة: ${areaFeddan.trim()} فدان` : null,
+      normalized ? `- المساحة: ${normalized} فدان` : null,
       `- نوع المحصول: ${CROP_LABELS[cropType]}`,
       `- نوع التربة: ${SOIL_LABELS[soilType]}`,
       `- معدل الإضافة التقديري للفدان: ${rateTonsText} طن/فدان (≈ ${rateM3Text} م³/فدان)`,
@@ -160,7 +165,7 @@ export function FarmCalculator({ onApplyEstimate }) {
           {CALCULATOR_STEPS.map((step, idx) => (
             <li key={step.num} className="calc-step">
               <div className="calc-step-top">
-                <span className="calc-step-num" aria-hidden="true">
+                <span className="calc-step-num num" aria-hidden="true">
                   {step.num}
                 </span>
                 <span className="calc-step-icon-box">
@@ -195,22 +200,18 @@ export function FarmCalculator({ onApplyEstimate }) {
                     <div className="calc-label-row">
                       <label htmlFor="area">مساحة المزرعة (فدان) *</label>
 
-                      <div
-                        ref={hintRef}
-                        className="calc-hint"
-                        onMouseEnter={() => setHintHovered(true)}
-                        onMouseLeave={() => setHintHovered(false)}
-                      >
+                      <div ref={hintRef} className="calc-hint">
                         <button
                           type="button"
                           className="calc-hint-btn"
-                          onClick={() => setHintPinned((prev) => !prev)}
+                          onClick={() => setHintOpen((prev) => !prev)}
                           aria-expanded={hintOpen}
+                          aria-controls="calc-hint-popover"
                           aria-label="عرض تحويلات وحدات المساحة الشائعة في مصر"
                         >
                           <svg
-                            width="15"
-                            height="15"
+                            width="16"
+                            height="16"
                             viewBox="0 0 24 24"
                             fill="none"
                             stroke="currentColor"
@@ -226,13 +227,13 @@ export function FarmCalculator({ onApplyEstimate }) {
                         </button>
 
                         {hintOpen && (
-                          <div role="tooltip" className="calc-hint-popover">
+                          <div id="calc-hint-popover" role="region" className="calc-hint-popover">
                             <p className="calc-hint-title">تحويلات وحدات المساحة في مصر</p>
                             <ul className="calc-hint-list">
                               {AREA_CONVERSIONS.map((item) => (
                                 <li key={item.unit}>
                                   <span className="calc-hint-unit">{item.unit}</span>
-                                  <span dir="ltr" className="calc-hint-val">
+                                  <span dir="ltr" className="calc-hint-val num">
                                     {item.value}
                                   </span>
                                 </li>
@@ -245,23 +246,17 @@ export function FarmCalculator({ onApplyEstimate }) {
 
                     <input
                       id="area"
-                      type="number"
+                      type="text"
                       inputMode="decimal"
-                      min="0"
-                      step="any"
+                      autoComplete="off"
                       placeholder="مثال: 25"
                       value={areaFeddan}
                       onChange={(e) => {
-                        const val = e.target.value;
-                        setAreaFeddan(val);
+                        const raw = e.target.value;
+                        const cleaned = normalizeDigits(raw).replace(/[^0-9.]/g, '');
+                        setAreaFeddan(cleaned);
                         if (areaError) setAreaError('');
-                        if (estimate) {
-                          const evalNext = evaluateCompostEstimate(
-                            { areaFeddan: val, cropType, soilType },
-                            config
-                          );
-                          setEstimate(evalNext.status === 'ready' ? evalNext.estimate : null);
-                        }
+                        syncEstimateIfActive(cleaned, cropType, soilType);
                       }}
                       aria-invalid={Boolean(areaError)}
                       aria-describedby={areaError ? 'calc-area-err' : undefined}
@@ -279,7 +274,11 @@ export function FarmCalculator({ onApplyEstimate }) {
                     <select
                       id="crop"
                       value={cropType}
-                      onChange={(e) => setCropType(e.target.value)}
+                      onChange={(e) => {
+                        const nextCrop = e.target.value;
+                        setCropType(nextCrop);
+                        syncEstimateIfActive(areaFeddan, nextCrop, soilType);
+                      }}
                     >
                       {CROP_TYPE_IDS.map((id) => (
                         <option key={id} value={id}>
@@ -295,7 +294,11 @@ export function FarmCalculator({ onApplyEstimate }) {
                     <select
                       id="soil"
                       value={soilType}
-                      onChange={(e) => setSoilType(e.target.value)}
+                      onChange={(e) => {
+                        const nextSoil = e.target.value;
+                        setSoilType(nextSoil);
+                        syncEstimateIfActive(areaFeddan, cropType, nextSoil);
+                      }}
                     >
                       {SOIL_TYPE_IDS.map((id) => (
                         <option key={id} value={id}>
@@ -311,12 +314,16 @@ export function FarmCalculator({ onApplyEstimate }) {
                   <span className="calc-ref-label">معدل الإضافة التقديري للفدان:</span>
                   <div className="calc-ref-badges">
                     <span className="calc-badge calc-badge-tons">
-                      <span dir="ltr">{perFeddanTonsText}</span>
+                      <span dir="ltr" className="num">
+                        {perFeddanTonsText}
+                      </span>
                       <span>طن / فدان</span>
                     </span>
                     <span className="calc-badge calc-badge-m3">
                       <span>≈</span>
-                      <span dir="ltr">{perFeddanM3Text}</span>
+                      <span dir="ltr" className="num">
+                        {perFeddanM3Text}
+                      </span>
                       <span>م³ / فدان</span>
                     </span>
                   </div>
@@ -354,11 +361,15 @@ export function FarmCalculator({ onApplyEstimate }) {
 
               <div className="calc-out-values">
                 <p className="calc-out-tons">
-                  <span dir="ltr">{tonsRangeDisplay}</span>
+                  <span dir="ltr" className="num">
+                    {tonsRangeDisplay}
+                  </span>
                   <span className="calc-out-unit">طن</span>
                 </p>
                 <p className="calc-out-m3">
-                  <span dir="ltr">{cubicRangeDisplay}</span>
+                  <span dir="ltr" className="num">
+                    {cubicRangeDisplay}
+                  </span>
                   <span className="calc-out-unit-sub">م³</span>
                 </p>
               </div>
@@ -367,15 +378,16 @@ export function FarmCalculator({ onApplyEstimate }) {
                 نطاق الكتلة بالطن المتري وما يعادلها بالحجم (م³)
               </p>
               <p className="calc-out-density">
-                محسوبة وفق الكثافة المخبرية المعتمدة للمنتج: 500 – 550 كجم/م³
+                محسوبة وفق الكثافة المخبرية المعتمدة للمنتج:{' '}
+                <span className="num">500 – 550</span> كجم/م³
               </p>
             </div>
           </div>
 
           <p className="calc-disclaimer">
             المخرجات هي تقديرات مبدئية استرشادية بنطاق (الحد الأدنى – الأقصى) بناءً على الكثافة
-            المخبرية للمنتج (500–550 كجم/م³) ومتوسطات الإضافة الزراعية، ولا تُعد توصية زراعية نهائية
-            أو عرض سعر ملزماً.
+            المخبرية للمنتج (<span className="num">500–550</span> كجم/م³) ومتوسطات الإضافة
+            الزراعية، ولا تُعد توصية زراعية نهائية أو عرض سعر ملزماً.
           </p>
         </div>
       </div>
