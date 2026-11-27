@@ -10,6 +10,7 @@ import { ProcessSection } from './components/ProcessSection';
 import { FarmCalculator } from './components/FarmCalculator';
 import { FaqSection } from './components/FaqSection';
 import { Gallery } from './components/Gallery';
+import { Testimonials } from './components/Testimonials';
 import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
 
@@ -105,6 +106,7 @@ export default function App() {
         <CompostProduct />
         <ProcessSection />
         <FarmCalculator onApplyEstimate={handleApplyEstimate} />
+        <Testimonials />
         <FaqSection />
         <Gallery />
         <Contact contactRef={contactRef} prefilledOrder={prefilledOrder} />

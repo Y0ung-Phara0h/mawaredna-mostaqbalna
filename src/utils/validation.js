@@ -2,7 +2,7 @@ import { normalizeDigits } from './format.js';
 
 export const REQUEST_TYPES = [
   'استفسار عام',
-  'طلب كومبوست',
+  'طلب كمبوست',
   'جمع مخلفات',
   'استشارة زراعية',
 ];

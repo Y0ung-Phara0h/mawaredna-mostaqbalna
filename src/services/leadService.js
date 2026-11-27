@@ -26,7 +26,7 @@ export function buildWhatsAppUrl(lead) {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
 }
 
-export function buildDirectWhatsAppUrl(presetText = 'مرحبًا، أود الاستفسار عن كومبوست مواردنا مستقبلنا.') {
+export function buildDirectWhatsAppUrl(presetText = 'مرحبًا، أود الاستفسار عن كمبوست مواردنا مستقبلنا.') {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(presetText)}`;
 }
 

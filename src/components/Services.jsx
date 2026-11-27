@@ -11,7 +11,7 @@ export function Services() {
       <div className="wrap">
         <div className="sec-head rv">
           <h2>خدمات تغطي الرحلة كاملة</h2>
-          <p>من الحصاد حتى وصول الكومبوست إلى مزرعتك.</p>
+          <p>من الحصاد حتى وصول الكمبوست إلى مزرعتك.</p>
         </div>
 
         <div className="tabs rv" role="tablist" aria-label="تصنيف الخدمات">

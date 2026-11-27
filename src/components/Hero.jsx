@@ -104,7 +104,7 @@ export function Hero({ heroRef }) {
             </p>
             <div className="cta">
               <a className="btn btn-straw" href="#contact">
-                اطلب الكومبوست
+                اطلب الكمبوست
               </a>
               <a className="btn btn-line" href="#calc">
                 احسب احتياج مزرعتك
@@ -118,12 +118,27 @@ export function Hero({ heroRef }) {
                 src="/hero-cycle.webp"
                 srcSet="/hero-cycle-sm.webp 580w, /hero-cycle.webp 760w"
                 sizes="(max-width: 700px) 320px, (max-width: 820px) 360px, 440px"
-                alt="دورة الاقتصاد الدائري الزراعي: قصب السكر يتحول إلى كومبوست يعود لتغذية الأرض وإنبات المحاصيل"
+                alt="دورة الاقتصاد الدائري الزراعي: قصب السكر يتحول إلى كمبوست يعود لتغذية الأرض وإنبات المحاصيل"
                 width="760"
                 height="608"
                 decoding="sync"
                 fetchPriority="high"
               />
+              <span className="hc-fx hc-orbit" aria-hidden="true">
+                <i />
+                <i />
+                <i />
+              </span>
+              <span className="hc-fx hc-pulse" aria-hidden="true" />
+              <span className="hc-fx hc-sprout" aria-hidden="true" />
+              <span className="hc-fx hc-flies" aria-hidden="true">
+                <i style={{ '--x': '30%', '--d': '0s' }} />
+                <i style={{ '--x': '48%', '--d': '1.2s' }} />
+                <i style={{ '--x': '64%', '--d': '2.4s' }} />
+                <i style={{ '--x': '78%', '--d': '0.7s' }} />
+                <i style={{ '--x': '40%', '--d': '3.1s' }} />
+                <i style={{ '--x': '58%', '--d': '1.9s' }} />
+              </span>
             </figure>
           </div>
         </div>

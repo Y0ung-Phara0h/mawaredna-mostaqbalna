@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "موقع شركة مواردنا مستقبلنا لإنتاج الكومبوست النقي 100% من مخلفات قصب السكر في مصر",
+  "description": "موقع شركة مواردنا مستقبلنا لإنتاج الكمبوست النقي 100% من مخلفات قصب السكر في مصر",
   "scripts": {
     "dev": "vite",
     "build": "vite build && vite build --ssr src/entry-server.jsx --outDir dist/server && node scripts/prerender.mjs",

@@ -37,8 +37,8 @@ export function Footer() {
               </div>
             </a>
             <p className="foot-desc">
-              نعمل في جمع وتدوير ومعالجة المخلفات الزراعية ومخلفات قصب السكر، وعلى رأسها الكومبوست
-              (الكمبوست) النقي <span className="num">100%</span> والأسمدة العضوية في مصر.
+              نعمل في جمع وتدوير ومعالجة المخلفات الزراعية ومخلفات قصب السكر، وعلى رأسها الكمبوست
+              النقي <span className="num">100%</span> والأسمدة العضوية في مصر.
             </p>
             <div className="foot-social">
               <a
@@ -79,7 +79,7 @@ export function Footer() {
                 <a href="#services">خدماتنا</a>
               </li>
               <li>
-                <a href="#compost">الكومبوست</a>
+                <a href="#compost">الكمبوست</a>
               </li>
               <li>
                 <a href="#faq">الأسئلة الشائعة</a>
@@ -98,6 +98,9 @@ export function Footer() {
               </li>
               <li>
                 <a href="#gallery">معرض الصور</a>
+              </li>
+              <li>
+                <a href="#testimonials">آراء العملاء</a>
               </li>
               <li>
                 <a href="#contact">تواصل معنا</a>

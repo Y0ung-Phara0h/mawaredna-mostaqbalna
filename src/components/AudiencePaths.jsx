@@ -12,7 +12,7 @@ export function AudiencePaths() {
           </span>
           <div>
             <h2>أنا مزارع</h2>
-            <p>احسب كمية الكومبوست لمزرعتك واطلبها</p>
+            <p>احسب كمية الكمبوست لمزرعتك واطلبها</p>
           </div>
           <Icon name="arr" className="ar" />
         </a>
@@ -22,7 +22,7 @@ export function AudiencePaths() {
           </span>
           <div>
             <h2>أنا مهندس أو شركة</h2>
-            <p>ورقة بيانات الكومبوست وخدمات التدوير</p>
+            <p>ورقة بيانات الكمبوست وخدمات التدوير</p>
           </div>
           <Icon name="arr" className="ar" />
         </a>

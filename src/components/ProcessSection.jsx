@@ -4,6 +4,14 @@ import { formatNum } from '../utils/format';
 
 const SUN_RAYS = Array.from({ length: 12 }, (_, i) => i * 30);
 
+const SCENE_STAGE_LABELS = [
+  { num: '1', label: 'المخلفات والجمع' },
+  { num: '2', label: 'النقل والتجميع' },
+  { num: '3', label: 'المعالجة والتخمير' },
+  { num: '4', label: 'التقليب والتجهيز' },
+  { num: '5', label: 'الكمبوست والزراعة' },
+];
+
 export function ProcessSection() {
   const sceneRef = useRef(null);
   const stepsRef = useRef(null);
@@ -59,12 +67,21 @@ export function ProcessSection() {
         </div>
 
         <div className="scene rv" id="scene" ref={sceneRef}>
+          <div className="scene-steps" aria-label="ملخص مراحل تحويل المخلفات">
+            {SCENE_STAGE_LABELS.map((stage) => (
+              <div className="scene-step" key={stage.num}>
+                <span className="num">{stage.num}</span>
+                <span>{stage.label}</span>
+              </div>
+            ))}
+          </div>
+
           <svg
-            viewBox="0 0 1200 340"
+            viewBox="0 20 1200 320"
             role="img"
-            aria-label="مشهد متحرك: شاحنة تنقل مخلفات قصب السكر من الحقل إلى موقع المعالجة، وحفار يقلبها، ثم تتخمر وتعود كتربة تنبت من جديد"
+            aria-label="مشهد متحرك: شاحنة تنقل مخلفات قصب السكر من الحقل إلى موقع المعالجة والتخمير، وحفار يقلبها، ثم تتجهز وتعود ككمبوست يغذي الأرض من جديد"
           >
-            <g transform="translate(120 88)">
+            <g transform="translate(120 96)">
               <circle className="glow" r="30" fill="#e6cf95" />
               <g className="rays" id="rays" stroke="#e6cf95" strokeWidth="3" strokeLinecap="round">
                 {SUN_RAYS.map((deg) => (
@@ -190,25 +207,8 @@ export function ProcessSection() {
               strokeDasharray="28 24"
               opacity=".5"
             />
-            <text className="lab" x="1070" y="40">
-              1 من الحقل
-            </text>
-            <text className="lab" x="870" y="40">
-              2 النقل
-            </text>
-            <text className="lab" x="700" y="40">
-              3 التفريغ والتقليب
-            </text>
-            <text className="lab" x="370" y="40">
-              4 التخمير
-            </text>
-            <text className="lab" x="110" y="40">
-              5 تعود للأرض
-            </text>
           </svg>
         </div>
-
-        <p className="note hint">اسحب المشهد يمينًا ويسارًا لمشاهدته كاملًا.</p>
 
         <div className="steps" id="steps" ref={stepsRef}>
           {PROCESS_STEPS.map((step, i) => (

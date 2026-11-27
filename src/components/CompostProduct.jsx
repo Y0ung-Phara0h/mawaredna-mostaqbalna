@@ -34,9 +34,9 @@ export function CompostProduct() {
       <div className="wrap comp">
         <div className="rv">
           <div className="sec-head" style={{ marginBottom: 20 }}>
-            <h2>كومبوست مواردنا مستقبلنا</h2>
+            <h2>كمبوست مواردنا مستقبلنا</h2>
             <p>
-              كومبوست (كمبوست) نقي <span className="num">100%</span> من مخلفات قصب السكر، يمر
+              كمبوست نقي <span className="num">100%</span> من مخلفات قصب السكر، يمر
               بالمعالجة والتخمير والتجهيز قبل الاستخدام لرفع خصوبة التربة.
             </p>
           </div>
@@ -47,7 +47,7 @@ export function CompostProduct() {
               width="400"
               height="320"
               role="img"
-              aria-label="رحلة المنتج: قصب السكر يتحول إلى ألياف، تتخمر في كومة، ثم تُعبأ ككومبوست مواردنا مستقبلنا، ويعود للأرض فينبت الزرع"
+              aria-label="رحلة المنتج: قصب السكر يتحول إلى ألياف، تتخمر في كومة، ثم تُعبأ ككمبوست مواردنا مستقبلنا، ويعود للأرض فينبت الزرع"
             >
               <defs>
                 <clipPath id="bagc">
@@ -155,7 +155,7 @@ export function CompostProduct() {
                   fontWeight="800"
                   fill="#1c4a27"
                 >
-                  كومبوست
+                  كمبوست
                 </text>
                 <text
                   x="125"
@@ -213,7 +213,7 @@ export function CompostProduct() {
                 تخمير
               </text>
               <text className="st" style={{ '--d': '4s' }} x="125" y="302">
-                كومبوست
+                كمبوست
               </text>
               <text className="st" style={{ '--d': '6s' }} x="42" y="302">
                 أرض أخصب
@@ -251,7 +251,7 @@ export function CompostProduct() {
             </li>
           </ul>
           <a href="#contact" className="btn btn-green">
-            اطلب الكومبوست
+            اطلب الكمبوست
           </a>
         </div>
 

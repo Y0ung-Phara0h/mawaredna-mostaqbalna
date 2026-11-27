@@ -24,7 +24,7 @@ export function Gallery() {
       <div className="wrap">
         <div className="sec-head rv">
           <h2>من مواقع العمل</h2>
-          <p>صور حقيقية لمعدات وخطوط تقليب ومعالجة وتحميل الكومبوست من الموقع.</p>
+          <p>صور حقيقية لمعدات وخطوط تقليب ومعالجة وتحميل الكمبوست من الموقع.</p>
         </div>
 
         <div className="gal">

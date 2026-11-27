@@ -27,7 +27,7 @@ export function Contact({ contactRef, prefilledOrder }) {
 
   useEffect(() => {
     if (prefilledOrder?.text) {
-      setRequestType('طلب كومبوست');
+      setRequestType('طلب كمبوست');
       setDetails(prefilledOrder.text);
       setCalcAttached(true);
       setDeliveryData(null);
@@ -105,7 +105,7 @@ export function Contact({ contactRef, prefilledOrder }) {
       <div className="wrap contact">
         <div className="rv">
           <div className="sec-head">
-            <h2>عندك مخلفات أو محتاج كومبوست؟</h2>
+            <h2>عندك مخلفات أو محتاج كمبوست؟</h2>
             <p>أرسل طلبك وسيتواصل معك فريق الشركة لدراسته وتحديد أنسب عرض سعر.</p>
           </div>
 
