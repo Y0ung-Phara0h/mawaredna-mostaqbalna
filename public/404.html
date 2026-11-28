@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex" />
+  <title>الصفحة غير موجودة | مواردنا مستقبلنا</title>
+  <link rel="icon" href="/logo.png" />
+  <style>
+    @font-face { font-family: "Hanimation"; src: url("/fonts/Hanimation-Regular.min.woff2") format("woff2"); font-weight: 300 500; font-display: swap; }
+    @font-face { font-family: "Hanimation"; src: url("/fonts/Hanimation-Bold.min.woff2") format("woff2"); font-weight: 600 800; font-display: swap; }
+    * { box-sizing: border-box; margin: 0; }
+    body {
+      min-height: 100vh; display: grid; place-items: center; padding: 24px; text-align: center;
+      font-family: "Hanimation", system-ui, sans-serif; color: #e9e3d4; line-height: 1.8;
+      background: radial-gradient(70% 60% at 20% 110%, #2c6b38 0, transparent 70%), #1c4a27;
+      overflow: hidden;
+    }
+    .box { position: relative; z-index: 1; max-width: 520px; }
+    .logo { width: 72px; height: 72px; margin-bottom: 8px; }
+    .code { font-size: clamp(90px, 22vw, 150px); font-weight: 800; line-height: 1.1; color: #7ab34c; letter-spacing: 4px; direction: ltr; }
+    h1 { font-size: clamp(24px, 4vw, 32px); margin: 6px 0 10px; }
+    p { color: #dde6d2; margin-bottom: 28px; }
+    .btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    a.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 10px 26px; border-radius: 10px; font-weight: 700; text-decoration: none; transition: transform .2s; }
+    a.btn:hover { transform: translateY(-2px); }
+    .primary { background: #e9e3d4; color: #1c4a27; }
+    .line { border: 2px solid rgba(255,255,255,.4); color: #fff; }
+    .leaf { position: absolute; bottom: -40px; width: 34px; opacity: .25; animation: flt 14s linear infinite; }
+    @keyframes flt { 0% { transform: translate(0,0) rotate(0); } 50% { transform: translate(34px,-50vh) rotate(140deg); } 100% { transform: translate(-14px,-110vh) rotate(300deg); opacity: 0; } }
+    @media (prefers-reduced-motion: reduce) { .leaf { animation: none; } }
+  </style>
+</head>
+<body>
+  <svg class="leaf" style="left:12%" viewBox="-2 -20 40 28" aria-hidden="true"><path d="M0 0C10-14 28-14 36-4 32 10 16 18 0 0z" fill="#7ab34c"/></svg>
+  <svg class="leaf" style="left:38%;animation-delay:-5s" viewBox="-2 -20 40 28" aria-hidden="true"><path d="M0 0C10-14 28-14 36-4 32 10 16 18 0 0z" fill="#7ab34c"/></svg>
+  <svg class="leaf" style="left:64%;animation-delay:-9s" viewBox="-2 -20 40 28" aria-hidden="true"><path d="M0 0C10-14 28-14 36-4 32 10 16 18 0 0z" fill="#7ab34c"/></svg>
+  <svg class="leaf" style="left:86%;animation-delay:-3s" viewBox="-2 -20 40 28" aria-hidden="true"><path d="M0 0C10-14 28-14 36-4 32 10 16 18 0 0z" fill="#7ab34c"/></svg>
+  <main class="box">
+    <img class="logo" src="/brand/icon-logo-white.svg" alt="مواردنا مستقبلنا" width="72" height="72" />
+    <div class="code">404</div>
+    <h1>الصفحة غير موجودة</h1>
+    <p>يبدو أن الرابط غير صحيح أو أن الصفحة اتنقلت. ارجع للرئيسية وكمّل رحلتك مع مواردنا مستقبلنا.</p>
+    <div class="btns">
+      <a class="btn primary" href="/">العودة للرئيسية</a>
+      <a class="btn line" href="/#contact">تواصل معنا</a>
+    </div>
+  </main>
+</body>
+</html>

@@ -107,8 +107,37 @@ function previewCompressionPlugin() {
   };
 }
 
+function notFoundPlugin() {
+  const handler = (req, res, next) => {
+    if (req.method !== 'GET' && req.method !== 'HEAD') return next();
+    let urlPath;
+    try {
+      urlPath = decodeURIComponent((req.url || '/').split('?')[0]);
+    } catch {
+      return next();
+    }
+    const known = urlPath === '/' || urlPath === '/index.html';
+    const looksLikeAsset = path.extname(urlPath) !== '' || /^\/(@|__|node_modules)/.test(urlPath);
+    if (known || looksLikeAsset) return next();
+    const file = path.resolve('public', '404.html');
+    if (!fs.existsSync(file)) return next();
+    res.statusCode = 404;
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.end(req.method === 'HEAD' ? undefined : fs.readFileSync(file));
+  };
+  return {
+    name: 'not-found-page',
+    configureServer(server) {
+      server.middlewares.use(handler);
+    },
+    configurePreviewServer(server) {
+      server.middlewares.use(handler);
+    },
+  };
+}
+
 export default defineConfig({
-  plugins: [react(), previewCompressionPlugin()],
+  plugins: [react(), previewCompressionPlugin(), notFoundPlugin()],
   resolve: {
     alias: {
       react: 'preact/compat',
