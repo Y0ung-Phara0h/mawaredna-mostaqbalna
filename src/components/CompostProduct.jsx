@@ -36,7 +36,7 @@ export function CompostProduct() {
           <div className="sec-head" style={{ marginBottom: 20 }}>
             <h2>كومبوست مواردنا مستقبلنا</h2>
             <p>
-              كومبوست (كمبوست) نقي <span className="num">100%</span> من مخلفات قصب السكر، يمر
+              كومبوست نقي <span className="num">100%</span> من مخلفات قصب السكر، يمر
               بالمعالجة والتخمير والتجهيز قبل الاستخدام لرفع خصوبة التربة.
             </p>
           </div>
