@@ -3632,3 +3632,303 @@ textarea[aria-invalid="true"] {
     font-size: 13px;
   }
 }
+
+/* Growing plant rail: a stalk that grows with the scroll and sprouts a leaf per section */
+.plant {
+  --p: 0;
+  position: fixed;
+  top: 50%;
+  right: 18px;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 64vh;
+  max-height: 560px;
+  z-index: 30;
+}
+
+.plant-stem {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 16px;
+  margin-left: -8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.pseg {
+  flex: 1 1 0;
+  display: block;
+  margin-block: 2px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--green) 28%, var(--line));
+  opacity: 0.55;
+  transition: background 0.3s, opacity 0.3s;
+}
+
+.pseg.on {
+  opacity: 1;
+  background:
+    linear-gradient(165deg, rgba(255, 255, 255, 0.32) 0 24%, transparent 24%),
+    linear-gradient(90deg, #4c8836, #66a443 45%, #4c8836);
+  animation: psegIn 0.55s cubic-bezier(0.3, 1.5, 0.5, 1) both;
+}
+
+@keyframes psegIn {
+  from {
+    opacity: 0;
+    transform: translateY(-26px) rotate(-12deg) scaleY(0.6);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.plant-bud {
+  position: absolute;
+  left: 50%;
+  top: calc(var(--p) * 100%);
+  width: 34px;
+  height: 34px;
+  margin: -32px 0 0 -17px;
+  transform-origin: 50% 100%;
+  animation: budSway 3.2s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 6px rgba(122, 179, 76, 0.7));
+  pointer-events: none;
+}
+
+@keyframes budSway {
+  from {
+    rotate: -7deg;
+  }
+
+  to {
+    rotate: 7deg;
+  }
+}
+
+.plant-node {
+  position: absolute;
+  left: 50%;
+  width: 26px;
+  height: 26px;
+  margin: -13px 0 0 -13px;
+  display: grid;
+  place-items: center;
+}
+
+.plant-dot {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 2px solid color-mix(in srgb, var(--green) 45%, var(--line));
+  transition: background 0.4s, border-color 0.4s, transform 0.4s var(--ease), box-shadow 0.4s;
+}
+
+.plant-node:hover .plant-dot {
+  transform: scale(1.25);
+}
+
+.plant-node.lit .plant-dot {
+  background: var(--straw);
+  border-color: #4f8f3a;
+}
+
+.plant-node.now .plant-dot {
+  transform: scale(1.35);
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--straw) 30%, transparent);
+  animation: dotPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--straw) 35%, transparent);
+  }
+
+  50% {
+    box-shadow: 0 0 0 9px color-mix(in srgb, var(--straw) 8%, transparent);
+  }
+}
+
+.plant-leaf {
+  position: absolute;
+  top: 50%;
+  width: 26px;
+  height: 16px;
+  fill: #5ea044;
+  opacity: 0;
+  transform: scale(0) rotate(0deg);
+  transition: opacity 0.4s, transform 0.7s cubic-bezier(0.3, 1.5, 0.5, 1);
+  pointer-events: none;
+}
+
+.plant-node.l .plant-leaf {
+  right: 60%;
+  margin-top: -14px;
+  transform-origin: 100% 60%;
+  transform: scale(0) rotate(-25deg) scaleX(-1);
+}
+
+.plant-node.r .plant-leaf {
+  left: 60%;
+  margin-top: -14px;
+  transform-origin: 0 60%;
+  transform: scale(0) rotate(25deg);
+}
+
+.plant-node.l.lit .plant-leaf {
+  opacity: 1;
+  transform: scale(1) rotate(-18deg) scaleX(-1);
+}
+
+.plant-node.r.lit .plant-leaf {
+  opacity: 1;
+  transform: scale(1) rotate(18deg);
+}
+
+.plant-node.now .plant-leaf {
+  fill: var(--straw);
+}
+
+.plant-label {
+  position: absolute;
+  top: 50%;
+  right: 150%;
+  transform: translate(8px, -50%);
+  white-space: nowrap;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--forest);
+  color: #fff;
+  font: 600 13px var(--font-body);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s, transform 0.25s var(--ease);
+}
+
+.plant-node:hover .plant-label,
+.plant-node:focus-visible .plant-label {
+  opacity: 1;
+  transform: translate(0, -50%);
+}
+
+@media (max-width: 1020px) {
+  .plant {
+    display: none;
+  }
+}
+
+
+/* Plant rail: polished look */
+.plant::before {
+  content: "";
+  position: absolute;
+  inset: -22px -9px -22px -9px;
+  z-index: -1;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface) 72%, transparent);
+  border: 1px solid var(--line);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12), inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.plant-stem {
+  width: 18px;
+  margin-left: -9px;
+}
+
+.pseg {
+  position: relative;
+  margin-block: 1.5px;
+  border-radius: 9px / 7px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--green) 14%, var(--line)), color-mix(in srgb, var(--green) 30%, var(--line)));
+  opacity: 0.7;
+}
+
+.pseg.on {
+  background: linear-gradient(90deg, #3b7429 0, #6fae48 24%, #a6dc72 40%, #6aa845 64%, #3a7227 100%);
+  box-shadow: 0 0 10px rgba(122, 179, 76, 0.5), inset 0 -4px 0 rgba(20, 50, 15, 0.22);
+}
+
+.pseg.on::before {
+  content: "";
+  position: absolute;
+  left: 22%;
+  top: 12%;
+  bottom: 22%;
+  width: 17%;
+  border-radius: 6px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.08));
+}
+
+.pseg.on::after {
+  content: "";
+  position: absolute;
+  inset-inline: 2px;
+  bottom: 3px;
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(20, 50, 15, 0.35);
+}
+
+.plant-dot {
+  width: 15px;
+  height: 15px;
+  border-width: 3px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+.plant-node.lit .plant-dot {
+  background: #eaffd0;
+  border-color: #3f7a2e;
+  box-shadow: 0 0 10px rgba(122, 179, 76, 0.85);
+}
+
+.plant-leaf {
+  width: 32px;
+  height: 20px;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.25));
+}
+
+.plant-node.lit .plant-leaf {
+  fill: #6fae48;
+}
+
+.plant-node.now .plant-leaf {
+  fill: #9ccc6f;
+  filter: drop-shadow(0 0 6px rgba(158, 232, 98, 0.8));
+}
+
+.plant-label {
+  background: linear-gradient(135deg, #1c4a27, #286631);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+
+/* Hero cane field: every stalk assembles segment by segment */
+.cseg {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: csegIn 0.6s cubic-bezier(0.3, 1.5, 0.5, 1) both;
+  animation-delay: var(--d, 0s);
+}
+
+@keyframes csegIn {
+  from {
+    opacity: 0;
+    transform: translateY(-46px) scaleY(0.5) rotate(-8deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

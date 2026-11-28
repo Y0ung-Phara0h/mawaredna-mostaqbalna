@@ -13,6 +13,7 @@ import { Gallery } from './components/Gallery';
 import { WorkShowcase } from './components/WorkShowcase';
 import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
+import { PlantRail } from './components/PlantRail';
 
 export default function App() {
   const [activeSection, setActiveSection] = useState('');
@@ -97,6 +98,7 @@ export default function App() {
     <>
       <IconSprite />
       <Header activeSection={activeSection} />
+      <PlantRail />
 
       <main id="top">
         <Hero heroRef={heroRef} />

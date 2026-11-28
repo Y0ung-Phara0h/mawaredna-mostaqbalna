@@ -30,6 +30,8 @@ const FIELD_CANES = [
   { x: 1184, type: 'm', flip: true, shade: '#7ab34c', op: 0.72 },
 ];
 
+const SEG_COUNT = { s: 2, m: 3, l: 4 };
+
 export function Hero({ heroRef }) {
   const statsRef = useRef(null);
   const statNumsRef = useRef([]);
@@ -152,31 +154,25 @@ export function Hero({ heroRef }) {
         >
           <defs>
             <path id="c-seg" d="M0 -19Q0 -22 6.5 -24.2L6.5 -3.1Q6.5 0 0 1.8Z" />
-            <g id="c-s">
-              <use href="#c-seg" />
-              <use href="#c-seg" y="-25.5" />
-            </g>
-            <g id="c-m">
-              <use href="#c-seg" />
-              <use href="#c-seg" y="-25.5" />
-              <use href="#c-seg" y="-51" />
-            </g>
-            <g id="c-l">
-              <use href="#c-seg" />
-              <use href="#c-seg" y="-25.5" />
-              <use href="#c-seg" y="-51" />
-              <use href="#c-seg" y="-76.5" />
-            </g>
           </defs>
           <g className="field-sway">
-            {FIELD_CANES.map((cane) => (
-              <use
+            {FIELD_CANES.map((cane, idx) => (
+              <g
                 key={cane.x}
-                href={`#c-${cane.type}`}
                 transform={`translate(${cane.x} 112)${cane.flip ? ' scale(-1 1)' : ''}`}
                 fill={cane.shade}
                 opacity={cane.op}
-              />
+              >
+                {Array.from({ length: SEG_COUNT[cane.type] }, (_, k) => (
+                  <use
+                    key={k}
+                    className="cseg"
+                    href="#c-seg"
+                    y={-25.5 * k}
+                    style={{ '--d': `${(0.15 + idx * 0.07 + k * 0.17).toFixed(2)}s` }}
+                  />
+                ))}
+              </g>
             ))}
           </g>
         </svg>
