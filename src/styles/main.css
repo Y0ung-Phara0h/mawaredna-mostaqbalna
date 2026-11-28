@@ -3932,3 +3932,47 @@ textarea[aria-invalid="true"] {
     transform: none;
   }
 }
+
+
+/* Video facade: nothing from the video host loads until the visitor presses play */
+.works-play {
+  position: relative;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 14px;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  color: #fff;
+  font: 700 16px var(--font-body);
+  background:
+    radial-gradient(80% 50% at 50% 100%, #2c6b38 0, transparent 70%),
+    linear-gradient(180deg, #1c4a27, #101a12);
+}
+
+.works-play-logo {
+  width: 64px;
+  height: 64px;
+  opacity: 0.9;
+}
+
+.works-play-btn {
+  display: grid;
+  place-items: center;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: var(--straw);
+  color: #13210f;
+  box-shadow: 0 0 0 10px rgba(122, 179, 76, 0.25);
+  transition: transform 0.3s var(--ease), box-shadow 0.3s;
+}
+
+.works-play:hover .works-play-btn,
+.works-play:focus-visible .works-play-btn {
+  transform: scale(1.08);
+  box-shadow: 0 0 0 16px rgba(122, 179, 76, 0.2);
+}

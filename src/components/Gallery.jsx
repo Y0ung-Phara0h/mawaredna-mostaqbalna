@@ -44,7 +44,9 @@ export function Gallery() {
                 aria-expanded={isOpen}
               >
                 <img
-                  src={item.src}
+                  src={item.thumbSrc || item.src}
+                  srcSet={item.thumbSrc ? `${item.thumbSrc} 540w, ${item.src} 640w` : undefined}
+                  sizes="(max-width: 700px) 92vw, 560px"
                   alt={item.alt}
                   width={item.width}
                   height={item.height}
